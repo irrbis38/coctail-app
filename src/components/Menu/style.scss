@@ -1,0 +1,44 @@
+.menu {
+  flex-shrink: 0;
+  width: var(--menu-width);
+}
+
+.menu-list {
+    position: sticky;
+  top: calc(var(--header-height) + 30px);
+}
+
+.menu-item {
+  margin: 4px 0;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  a {
+    display: block;
+    padding: 4px;
+    border-radius: 4px;
+    transition: color 0.2s ease-out, background-color 0.2s ease-out;
+
+    @media (hover: hover) {
+      &:hover {
+        background-color: var(--bg-color-hover);
+      }
+    }
+  }
+}
+
+.menu-link--active {
+  display: block;
+  padding: 4px;
+  border-radius: 4px;
+  background-color: var(--bg-color-active);
+  color: var(--text-active);
+  font-weight: 700;
+  cursor: default;
+}

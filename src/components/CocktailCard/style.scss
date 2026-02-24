@@ -1,0 +1,79 @@
+.cocktail-card {
+  display: grid;
+  grid-template-columns: 1fr 200px;
+  grid-template-rows: auto auto 1fr;
+  align-content: start;
+  grid-template-areas:
+    'title img'
+    'description img'
+    'ingredients img';
+  gap: 12px 24px;
+
+  &:not(:last-child) {
+    position: relative;
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: block;
+      height: 1px;
+      background: linear-gradient(
+        to right,
+        transparent 0%,
+        var(--header-text) 50%,
+        transparent 100%
+      );
+    }
+  }
+}
+
+.cocktail-card__title {
+  grid-area: title;
+  font-size: 16px;
+}
+
+.cocktail-card__description {
+  grid-area: description;
+}
+
+.cocktail-card__ingredients {
+  grid-area: ingredients;
+}
+
+.cocktail-card__ingredients-item {
+  display: flex;
+  gap: 2px;
+  align-items: flex-end;
+  width: 100%;
+  color: #757575;
+  line-height: 1;
+
+  &:not(:last-child) {
+    margin-bottom: 4px;
+  }
+}
+
+.cocktail-card__ingredients-item-name,
+.cocktail-card__ingredients-item-measure {
+  flex-shrink: 0;
+}
+
+.cocktail-card__ingredients-item-dots {
+  flex: 1 1 auto;
+  display: block;
+  width: 20px;
+  border-bottom: 1px dotted #757575;
+}
+
+.cocktail-card__img {
+  grid-area: img;
+  display: block;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+}

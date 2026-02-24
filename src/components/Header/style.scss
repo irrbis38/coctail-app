@@ -1,0 +1,46 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  height: var(--header-height);
+  background-color: var(--header-bg);
+  color: var(--header-text);
+}
+
+.header__container {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  width: 100%;
+  max-width: 1084px;
+  min-width: 320px;
+  margin: 0 auto;
+  padding: 3px 30px;
+
+  @include mob {
+    padding: 3px 15px;
+  }
+}
+
+.header__link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+}
+
+.header__logo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.header__name {
+  font-family: Georgia, serif;
+  font-size: 28px;
+  font-weight: 700;
+}
