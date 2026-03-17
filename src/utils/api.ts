@@ -1,6 +1,6 @@
-import type { Cocktail } from '@/types/cocktail'
+import type { CocktailType } from '@/types/cocktail'
 
-export async function fetchCocktails(code: string): Promise<Cocktail[]> {
+export async function fetchCocktail(code: string): Promise<CocktailType[]> {
   try {
     const response = await fetch(
       `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${code}`

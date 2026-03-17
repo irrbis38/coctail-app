@@ -1,10 +1,4 @@
-export interface Cocktail {
-  code: string;
-  title: string;
-  path: string;
-}
-
-export const COCKTAIL_DATA: readonly Cocktail[] = [
+export const COCKTAIL_DATA = [
   {
     code: 'margarita',
     title: 'Margarita',

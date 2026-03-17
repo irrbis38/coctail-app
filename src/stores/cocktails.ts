@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { fetchCocktails } from '@/utils/api'
+import { fetchCocktail } from '@/utils/api'
 import type { CocktailsState, CocktailCode } from '@/types/cocktail'
 
 export const useCocktailsStore = defineStore('cocktails', () => {
@@ -11,6 +11,7 @@ export const useCocktailsStore = defineStore('cocktails', () => {
   })
 
   const cocktails = computed(() => state.value.data)
+
   const isLoading = computed(() => (code: CocktailCode) =>
     state.value.loading[code] || false
   )
@@ -23,8 +24,12 @@ export const useCocktailsStore = defineStore('cocktails', () => {
     state.value.error[code] || ''
   )
 
-  const fetchCocktail = async (code: CocktailCode) => {
-    if (state.value.data[code] && !state.value.loading[code]) {
+  const getCocktail = async (code: CocktailCode) => {
+    if (state.value.loading[code]) {
+      return
+    }
+
+    if (code in state.value.data) {
       return state.value.data[code]
     }
 
@@ -32,7 +37,7 @@ export const useCocktailsStore = defineStore('cocktails', () => {
     state.value.error[code] = null
 
     try {
-      const data = await fetchCocktails(code)
+      const data = await fetchCocktail(code)
       state.value.data[code] = data
       return data
     } catch (error) {
@@ -45,20 +50,11 @@ export const useCocktailsStore = defineStore('cocktails', () => {
     }
   }
 
-  const reset = () => {
-    state.value = {
-      data: {},
-      loading: {},
-      error: {}
-    }
-  }
-
   return {
     cocktails,
     isLoading,
     hasError,
     errorMessage,
-    fetchCocktail,
-    reset
+    getCocktail
   }
 })

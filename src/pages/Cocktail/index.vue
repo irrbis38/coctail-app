@@ -1,8 +1,9 @@
 <script setup lang="ts">
   import { computed, onMounted, watch } from 'vue';
   import { useRoute } from 'vue-router';
+  import { storeToRefs } from 'pinia';
   import { useCocktailsStore } from '@/stores/cocktails';
-  import { COCKTAIL_CODES, type CocktailCode } from '@/types/cocktail';
+  import { type CocktailCode, isValidCode } from '@/types/cocktail';
   import CocktailCard from '@/components/CocktailCard';
 
   interface Props {
@@ -13,10 +14,8 @@
 
   const route = useRoute();
   const store = useCocktailsStore();
-
-  const isValidCode = (code: string): code is CocktailCode => {
-    return code in COCKTAIL_CODES;
-  };
+  const { cocktails, isLoading } = storeToRefs(store);
+  const { getCocktail } = store;
 
   const currentCode = computed<CocktailCode>(() => {
     const paramCode = route.params.code;
@@ -28,19 +27,15 @@
     return 'margarita';
   });
 
-  const cocktails = computed(() => store.cocktails[currentCode.value] || []);
-  const loading = computed(() => store.isLoading(currentCode.value));
-  const error = computed(() => store.errorMessage(currentCode.value));
+  const currentCocktailsList = computed(() => cocktails.value[currentCode.value] ?? []);
 
-  const loadData = async () => {
-    await store.fetchCocktail(currentCode.value);
-  };
+  const loading = computed(() => isLoading.value(currentCode.value));
+
+  const loadData = () => getCocktail(currentCode.value);
 
   onMounted(loadData);
 
-  watch(currentCode, () => {
-    loadData();
-  });
+  watch(currentCode, loadData);
 </script>
 
 <template>
@@ -53,23 +48,19 @@
     >
       Loading...
     </div>
-    <div
-      v-else-if="error"
-      class="error"
-    >
-      {{ error }}
-    </div>
-
-    <div
-      v-else-if="cocktails.length"
-      class="cocktails-list"
-    >
-      <CocktailCard
-        v-for="cocktail in cocktails"
-        :key="cocktail.idDrink"
-        :cocktail="cocktail"
-      />
-    </div>
+    <template v-else>
+      <div
+        v-if="currentCocktailsList.length"
+        class="cocktails-list"
+      >
+        <CocktailCard
+          v-for="cocktail in currentCocktailsList"
+          :key="cocktail.idDrink"
+          :cocktail="cocktail"
+        />
+      </div>
+      <div v-else>Ничего не найдено</div>
+    </template>
   </section>
 </template>
 

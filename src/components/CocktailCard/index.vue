@@ -1,9 +1,9 @@
 <script setup lang="ts">
-  import type { Cocktail } from '@/types/cocktail';
   import { computed } from 'vue';
+  import type { CocktailType } from '@/types/cocktail';
 
   const props = defineProps<{
-    cocktail: Cocktail;
+    cocktail: CocktailType;
   }>();
 
   function isValidKey<T extends Record<string, any>>(
